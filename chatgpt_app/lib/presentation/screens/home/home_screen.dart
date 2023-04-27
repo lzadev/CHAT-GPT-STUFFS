@@ -1,5 +1,4 @@
 import 'package:chatgpt_app/config/menu_item.dart';
-import 'package:chatgpt_app/presentation/screens/completitions/completions_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -57,7 +56,7 @@ class _MenuItem extends StatelessWidget {
         Icons.arrow_forward_outlined,
       ),
       onTap: () {
-        context.pushNamed(CompletitionsScreen.name);
+        context.push(menuItem.link);
       },
     );
   }

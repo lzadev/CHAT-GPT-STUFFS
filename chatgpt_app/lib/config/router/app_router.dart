@@ -12,6 +12,11 @@ final appRouter = GoRouter(
       name: CompletitionsScreen.name,
       path: '/completitions',
       builder: (context, state) => const CompletitionsScreen(),
+    ),
+    GoRoute(
+      name: ImagesScreen.name,
+      path: '/images',
+      builder: (context, state) => const ImagesScreen(),
     )
   ],
 );

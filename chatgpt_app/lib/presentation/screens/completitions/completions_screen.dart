@@ -1,5 +1,5 @@
-import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:chatgpt_app/presentation/providers/completitions_provider.dart';
+import 'package:chatgpt_app/presentation/providers/shared/ui_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -32,12 +32,13 @@ class _CompletionsBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final completitionsProvider = context.watch<CompletitionsProvider>();
+    final uiProvider = context.watch<UiProvider>();
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
         Expanded(
           child: ListView.builder(
-            controller: completitionsProvider.completitionsScrollController,
+            controller: uiProvider.completitionsScrollController,
             itemCount: completitionsProvider.messages.length,
             itemBuilder: (context, index) {
               final message = completitionsProvider.messages[index];
@@ -48,60 +49,13 @@ class _CompletionsBody extends StatelessWidget {
           ),
         ),
         completitionsProvider.isLoading
-            ? _LoadingMessageContainer()
+            ? const LoadingMessageContainer(textMessage: 'Getting the answer')
             : const SizedBox.shrink(),
         MessageInputField(
           onValueChange: completitionsProvider.sendAndGetAnswer,
+          enable: completitionsProvider.isLoading,
         )
       ],
-    );
-  }
-}
-
-class _LoadingMessageContainer extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    final color = Theme.of(context).colorScheme;
-    final backgorundColor = color.secondary;
-    return Padding(
-      padding: const EdgeInsets.all(15.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Container(
-            margin: const EdgeInsets.only(top: 2.0),
-            padding: const EdgeInsets.all(10.0),
-            width: size.width * 0.4,
-            decoration: BoxDecoration(
-              color: backgorundColor,
-              borderRadius: BorderRadius.circular(10.0),
-            ),
-            child: Row(
-              // mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                const Text(
-                  'getting the answer ',
-                  style: TextStyle(color: Colors.black),
-                  textAlign: TextAlign.center,
-                ),
-                AnimatedTextKit(
-                  repeatForever: true,
-                  animatedTexts: [
-                    TyperAnimatedText(
-                      '...',
-                      textStyle: const TextStyle(
-                        color: Colors.black,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
     );
   }
 }

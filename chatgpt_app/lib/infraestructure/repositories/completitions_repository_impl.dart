@@ -7,7 +7,7 @@ class CompletitionsRepositoryImpl implements CompletitionsRepository {
 
   CompletitionsRepositoryImpl({required this.completionsDatasource});
   @override
-  Future<Message> sendAndGetAnswer(String textKey) {
-    return completionsDatasource.sendAndGetAnswer(textKey);
+  Future<Message> sendAndGetAnswer(String textKey) async {
+    return await completionsDatasource.sendAndGetAnswer(textKey);
   }
 }

@@ -1,17 +1,20 @@
-import 'package:chatgpt_app/presentation/providers/completitions_provider.dart';
+import 'package:chatgpt_app/presentation/providers/shared/ui_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class MessageInputField extends StatelessWidget {
   final ValueChanged<String> onValueChange;
+  final bool enable;
+
   const MessageInputField({
     super.key,
     required this.onValueChange,
+    required this.enable,
   });
 
   @override
   Widget build(BuildContext context) {
-    final completitionsProvider = context.read<CompletitionsProvider>();
+    final uiProvider = context.read<UiProvider>();
     final textController = TextEditingController();
     final focusNode = FocusNode();
 
@@ -40,7 +43,7 @@ class MessageInputField extends StatelessWidget {
     );
 
     return TextFormField(
-      enabled: !completitionsProvider.isLoading,
+      enabled: !enable,
       controller: textController,
       focusNode: focusNode,
       decoration: inputDecoration,
@@ -52,7 +55,7 @@ class MessageInputField extends StatelessWidget {
         textController.clear();
         focusNode.requestFocus();
       },
-      onTap: () => completitionsProvider.moveScrollToBottom(),
+      onTap: () => uiProvider.moveScrollToBottom(),
     );
   }
 }
